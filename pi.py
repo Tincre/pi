@@ -1,6 +1,10 @@
 from decimal import Decimal, getcontext
+import typer
+
+app = typer.Typer(name="π")
 
 
+@app.command()
 def calculate_pi_gauss_legendre(digits: int):
     """
     This implements the Gauss-Legendre algorithm to calculate the
@@ -26,7 +30,8 @@ def calculate_pi_gauss_legendre(digits: int):
     return (a + b) ** 2 / (4 * t)
 
 
-def truncate_decimal(value: Decimal, places: int):
+@app.command()
+def truncate_decimal(value, places: int):
     """Truncates a Decimal value to a specified number of decimal places."""
     value_str = f"{value}"
     dot_position = value_str.find(".")
@@ -37,6 +42,11 @@ def truncate_decimal(value: Decimal, places: int):
     )
 
 
+@app.command()
 def calculate_pi(digits: int):
     """Returns the correct value of Pi up to the given digits."""
     return truncate_decimal(calculate_pi_gauss_legendre(digits), digits)
+
+
+if __name__ == "__main__":
+    app()
